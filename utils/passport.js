@@ -6,20 +6,26 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8000/api/v1/users/auth/google/callback", //users is added beacause this route is available on user endpoint
+      callbackURL: "http://localhost:8000/auth/google/callback", //users is added beacause this route is available on user endpoint
+      scope: ["profile", "email"],
     },
-    (accessToken, refreshToken, profile, done) => {
+    function (accessToken, refreshToken, profile, done) {
+      // console.log("profile:");
+      console.log(profile);
       console.log(accessToken);
+      const user = {
+        profile,
+        accessToken,
+      };
+      done(null, user);
     }
   )
 );
 
 passport.serializeUser((user, done) => {
-  console.log("serializing user.");
-  callback(null, user);
+  done(null, user);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log("deserialize user.");
-  callback(null, user);
+  done(null, user);
 });

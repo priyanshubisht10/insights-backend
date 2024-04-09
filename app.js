@@ -7,10 +7,13 @@ const adminRouter = require("./routes/adminRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const paymentRouter = require("./routes/paymentRoutes");
 const webhookRouter = require("./routes/webhookRoutes");
+const authRouter = require("./routes/authRoutes");
 const AppError = require("./utils/appError");
 const bodyparser = require("body-parser");
-const session = require('express-session');
+const session = require("express-session");
 const passport = require("passport");
+// const cookieSession = require("cookie-session");
+require("./utils/passport");
 
 const app = express();
 
@@ -30,6 +33,15 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: ["somesessionkey"],
+//     maxAge: 24 * 60 * 60 * 100 * 3,
+//   })
+// );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -49,6 +61,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/admin", adminRouter);

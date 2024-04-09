@@ -8,31 +8,9 @@ const router = express.Router();
 router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 
-// router.use(authController.protect);
-//below routes are only for authentiacated users
+router.use(authController.protect);
+// below routes are only for authentiacated users
 
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: `${process.env.SERVER_URL}/success.html`,
-    failureRedirect: `${process.env.SERVER_URL}/cancel.html`,
-  }),
-  (req, res) => {
-    // Successful authentication, redirect or handle the user as desired
-    console.log("/auth/google/callback hit");
-    res.redirect(`${process.env.SERVER_URL}/success.html`);
-  }
-);
-// Logout route
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
 
 router.route("/me").get(userController.getMe);
 router.route("/updateprofile").patch(userController.updateMe);
