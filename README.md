@@ -1,6 +1,5 @@
 # Insights-backend
 
-## Overview
 This repo contains the backend component of a platform designed to assist content creators in managing their YouTube accounts more effectively. The backend enables users to connect their YouTube accounts, analyze video comments, and interact with their audience directly.
 
 ## Features
